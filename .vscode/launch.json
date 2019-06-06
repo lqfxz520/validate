@@ -8,9 +8,17 @@
       "type": "chrome",
       "request": "launch",
       "name": "Launch Chrome against localhost",
-      // "url": "http://localhost:8083/index.html",
-      // "webRoot": "${workspaceFolder}/src"
-      "file": "${workspaceFolder}/src/index.html"
+      "url": "http://localhost",
+      "webRoot": "${workspaceFolder}"
+      // "file": "${workspaceFolder}/src/index.html"
+    },
+    {
+      "type": "chrome",
+      "request": "attach",
+      "name": "Atacch to Chrome",
+      "port": 9222,
+      "sourceMaps": true,
+      "webRoot": "${workspaceFolder}"
     }
   ]
 }

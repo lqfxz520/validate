@@ -1,6 +1,7 @@
 const forms = document.querySelectorAll('.validate')
 
 for (let i = 0; i < forms.length; i++) {
+  // disabled validate
   forms[i].setAttribute('novalidate', true)
 }
 
@@ -38,7 +39,7 @@ function hasError (field) {
 
   if (validity.tooShort) return '字符太短'
 
-  if (validity.tooShort) return '字符太长'
+  if (validity.tooLong) return '字符太长'
 
   if (validity.badInput) return '数字输入类型错误'
 
@@ -104,7 +105,7 @@ function removeError (field) {
     const group = document.getElementsByName(field.name)
 
     if (group.length) {
-      for (let = i; i < group.length; i++) {
+      for (let i = 0; i < group.length; i++) {
         if (group[i].form !== field.form) continue
         group[i].classList.remove('error')
       }

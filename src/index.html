@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Form Validate</title>
-  <!-- <script src="./validity-state-polyfill.js"></script> -->
-  <script>
-    var supported = function () { var input = document.createElement('input'); return ('validity' in input && 'badInput' in input.validity && 'patternMismatch' in input.validity && 'rangeOverflow' in input.validity && 'rangeUnderflow' in input.validity && 'stepMismatch' in input.validity && 'tooLong' in input.validity && 'tooShort' in input.validity && 'typeMismatch' in input.validity && 'valid' in input.validity && 'valueMissing' in input.validity); };
-    console.log(supported())
-  </script>
+  <script src="./validity-state-polyfill.js"></script>
   <style>
     .error {
       border-color: red;
@@ -22,14 +18,14 @@
   </style>
 </head>
 <body>
-  <form class="validate">
+  <form class="validate" action="//css-tricks.us2.list-manage.com/subscribe/post?u=155f5a9ccc4e24c318130cace&amp;id=197f127a68" method="POST">
     <div>
       <label for="form_1">姓名</label>
       <input type="text" id="form_1" name="form_1" required>
     </div>
     <div>
       <label for="form_2">电话</label>
-      <input type="text" id="form_2" name="form_2" minlength="3">
+      <input type="text" id="form_2" name="form_2" minlength="3" maxlength="5">
     </div>
     <div>
       <label for="form_3">
@@ -39,7 +35,71 @@
         <input id="form_4" type="radio" name="form_3" value="2" required>女
       </label>
     </div>
+    <button type="submit">提交</button>
   </form>
   <script src="./validate.js"></script>
+  <script>
+    document.addEventListener('submit', function (event) {
+      if (!event.target.classList.contains('validate')) return
+
+      event.preventDefault()
+
+      const fields = event.target.elements
+
+      let error, hasErrors
+      for (let i = 0; i < fields.length; i++) {
+        error = hasError(fields[i])
+
+        if (error) {
+          showError(fields[i], error)
+          if (!hasErrors) {
+            hasErrors = fields[i]
+          }
+        }
+      }
+
+      if (hasErrors) {
+        hasErrors.focus()
+        return
+      }
+
+      submitMailChimpForm(event.target)
+    }, false)
+
+    function submitMailChimpForm (form) {
+      let url = form.getAttribute('action')
+      url = url.replace('/post?u=', '/post-json?u=')
+
+      url += serialize(form) + '&c=displayMailChimpStatus'
+
+      const script = document.createElement('script')
+      script.setAttribute('src', url)
+      script.onload = function () {
+        this.remove()
+      }
+
+      const ref = document.getElementsByTagName('script')[0]
+      ref.parentNode.insertBefore(script, ref)
+    }
+
+    function serialize (form) {
+      let serialized = ''
+      for (let i = 0; i < form.elements.length; i++) {
+        const field = form.elements[i]
+
+        if (!field.name || field.disabled || field.type === 'file' || field.type === 'submit' || field.type === 'button' || field.type === 'reset') continue
+        
+        if ((field.type !== 'radio' && field.type !== 'checkbox') || field.checked) {
+          serialized += '&' + encodeURIComponent(field.name) + '=' + encodeURIComponent(field.value)
+        }
+      }
+
+      return serialized
+    }
+
+    window.displayMailChimpStatus = function (data) {
+      console.log(data)
+    }
+  </script>
 </body>
 </html>
