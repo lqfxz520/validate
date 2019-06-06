@@ -1,0 +1,29 @@
+form {
+  max-width: 450px;
+
+}
+
+form > div {
+  position: relative;
+
+  > input[type="text"],
+  > input[type="email"],
+  > input[type="url"] {
+    &:focus {
+      & + label {
+        opacity: 0;
+      }
+    }
+
+    &:valid {
+      background: url(images/check.svg);
+    }
+  }
+}
+
+form > div > label {
+  opacity: 0.3;
+  position: absolute;
+  top: 22px;
+  left: 20px;
+}

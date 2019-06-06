@@ -1,0 +1,27 @@
+form {
+  max-width: 450px;
+}
+
+form > div {
+  position: relative;
+}
+
+form > div > input[type="text"]:focus + label,
+form > div > input[type="email"]:focus + label,
+form > div > input[type="url"]:focus + label {
+  opacity: 0;
+}
+
+form > div > input[type="text"]:valid,
+form > div > input[type="email"]:valid,
+form > div > input[type="url"]:valid {
+  background: url(images/check.svg);
+}
+
+form > div > label {
+  opacity: 0.3;
+  position: absolute;
+  top: 22px;
+  left: 20px;
+}
+/*# sourceMappingURL=form-validation-ux-html.css.map */
